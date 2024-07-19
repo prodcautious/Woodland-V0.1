@@ -1,0 +1,125 @@
+[gd_scene load_steps=14 format=3 uid="uid://7b4t5o0mdx4o"]
+
+[ext_resource type="Script" path="res://scripts/items/rock/rockcontainer.gd" id="1_e4qmi"]
+[ext_resource type="Shader" path="res://shaders/itemoutline.gdshader" id="1_eo1nl"]
+[ext_resource type="Texture2D" uid="uid://p55iyooi0c6j" path="res://assets/textures/tileset/tileset.png" id="1_fdsaw"]
+[ext_resource type="Texture2D" uid="uid://dtrbgwswhd15w" path="res://assets/textures/ui/healthbar/under.png" id="4_ahef3"]
+[ext_resource type="Texture2D" uid="uid://b3anlco1me2sk" path="res://assets/textures/ui/healthbar/over.png" id="5_3qxiy"]
+[ext_resource type="Texture2D" uid="uid://c76n2gnkssd1q" path="res://assets/textures/ui/healthbar/progress.png" id="5_lpiu6"]
+[ext_resource type="AudioStream" uid="uid://bhserxh4ci452" path="res://assets/sounds/SFX/hitsounds/resources/rock_hit.mp3" id="7_74rta"]
+[ext_resource type="AudioStream" uid="uid://78hnu08hss2x" path="res://assets/sounds/SFX/hitsounds/resources/rock_break.mp3" id="8_6svk1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nmhsr"]
+shader = ExtResource("1_eo1nl")
+shader_parameter/outline_color = null
+shader_parameter/outline_enabled = false
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tq8c3"]
+
+[sub_resource type="Animation" id="Animation_266fh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rock:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rock:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v2or7"]
+resource_name = "shake"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rock:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1, 0), Vector2(1, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rock:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 0.9), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ugft"]
+_data = {
+"RESET": SubResource("Animation_266fh"),
+"shake": SubResource("Animation_v2or7")
+}
+
+[node name="RockContainer" type="Node2D" node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_e4qmi")
+sprite = NodePath("Rock")
+break_time = 0.4
+
+[node name="Rock" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_nmhsr")
+texture = ExtResource("1_fdsaw")
+hframes = 16
+vframes = 16
+frame = 22
+
+[node name="Area2D" type="Area2D" parent="Rock"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rock/Area2D"]
+shape = SubResource("RectangleShape2D_tq8c3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rock"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_4ugft")
+}
+
+[node name="BreakTimer" type="Timer" parent="Rock"]
+
+[node name="HealthBar" type="TextureProgressBar" parent="Rock"]
+visible = false
+custom_minimum_size = Vector2(16, 6)
+offset_left = -8.0
+offset_top = -12.0
+offset_right = 8.0
+offset_bottom = -6.0
+max_value = 3.0
+value = 3.0
+texture_under = ExtResource("4_ahef3")
+texture_over = ExtResource("5_3qxiy")
+texture_progress = ExtResource("5_lpiu6")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_74rta")
+bus = &"SFX"
+
+[node name="BreakSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_6svk1")
+bus = &"SFX"

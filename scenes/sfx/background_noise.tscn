@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dewjwqkwksprr"]
+
+[ext_resource type="AudioStream" uid="uid://bdd6l43d1l0qm" path="res://assets/sounds/SFX/Ambiance/island_sfx.mp3" id="1_48kcd"]
+
+[node name="BackgroundNoise" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_48kcd")
+volume_db = -20.0
+autoplay = true
+bus = &"SFX"
