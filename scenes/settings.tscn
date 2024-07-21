@@ -48,13 +48,6 @@ text = "Graphics"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HealthBar" type="CheckBox" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("1_y5ldh")
-button_pressed = true
-text = "Resource Health Bars"
-alignment = 1
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2

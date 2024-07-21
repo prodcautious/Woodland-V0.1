@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CharacterStats" load_steps=2 format=3 uid="uid://b1x0d8qgn1tub"]
+
+[ext_resource type="Script" path="res://scripts/resources/characters/character_stats.gd" id="1_v6slc"]
+
+[resource]
+script = ExtResource("1_v6slc")
+starting_health = 3
+max_health = 3
+starting_hunger = 50
+max_hunger = 50
+attack_strength = 2
